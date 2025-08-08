@@ -31,5 +31,28 @@ class LoginPage:
     
     
     #Intento de login con credenciales incorrectas
+
+
+    ERROR_TEXT = (By.CSS_SELECTOR, "div.oxd-alert-content-text")
+
+    def get_error_text(self):
+        return WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_element_located(self.ERROR_TEXT)
+        ).text
+
+    def url_contains(self, fragment: str) -> bool:
+        return fragment in self.driver.current_url
+
+    def dashboard_is_not_visible(self) -> bool:
+        # Devuelve True si NO aparece el Dashboard en un tiempo corto
+        try:
+            WebDriverWait(self.driver, 3).until(
+                EC.visibility_of_element_located(self.DASHBOARD_HEADER)
+            )
+            return False
+        except TimeoutException:
+            return True
+    
+    
     
     
